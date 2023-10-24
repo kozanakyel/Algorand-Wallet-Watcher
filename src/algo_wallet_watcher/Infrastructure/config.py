@@ -5,6 +5,7 @@ from algo_wallet_watcher.Infrastructure.logger.logger import Logger
 
 load_dotenv()
 
+MAINNET_ACCOUNT_API = 'https://mainnet-api.algonode.cloud/v2/accounts/'
 
 LOG_PATH = './src/algo_wallet_watcher/Infrastructure/logger' + os.sep + "logs"
 LOG_FILE_NAME_PREFIX = f"log_{datetime.now()}"
