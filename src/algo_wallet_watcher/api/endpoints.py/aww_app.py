@@ -12,7 +12,7 @@ from algo_wallet_watcher.core.domain.wallet import Wallet
 
 
 orm.start_mappers()
-engine = create_engine(config.get_api_url())
+engine = create_engine(config.get_db_uri())
 get_session = sessionmaker(bind=engine)
 orm.metadata.create_all(engine)
 
@@ -20,7 +20,7 @@ app = Flask(__name__)
 
 aww_blueprint = Blueprint('aww', __name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = config.get_api_url()
+app.config['SQLALCHEMY_DATABASE_URI'] = config.get_db_uri()
 
 db = SQLAlchemy(app)
 
@@ -43,4 +43,10 @@ def add_wallet():
     except ValueError as e:
         return {"message": str(e)}, 400
     return "OK", 201
+
+
+app.register_blueprint(aww_blueprint)
+
+if __name__ == '__main__':
+    app.run(port=5005, host='0.0.0.0')
 

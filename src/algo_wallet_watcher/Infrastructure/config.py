@@ -18,3 +18,5 @@ def get_api_url():
     return f"http://{host}:{port}"
 
 
+def get_db_uri():
+    return 'sqlite:///database.db'
