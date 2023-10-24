@@ -9,6 +9,7 @@ import algo_wallet_watcher.Infrastructure.config as config
 
 from algo_wallet_watcher.Infrastructure.adapters.wallet_repository import WalletRepository
 from algo_wallet_watcher.core.domain.wallet import Wallet
+from algo_wallet_watcher.api.services import aww_service
 
 
 orm.start_mappers()
@@ -28,19 +29,15 @@ db = SQLAlchemy(app)
 def add_wallet():
     session = get_session()
     repo = WalletRepository(session)
-    address = 'newaddress'
-    amount = 123456
-    state = 'Offline'
-    wallet = Wallet(address=address, amount=amount, state=state)
     try:
-        wallet_list = repo.list()
-        wallet_address_list = [x.address for x in wallet_list]
-
-        if address in wallet_address_list:
-            raise ValueError(f"Error This Wallet is exist: {wallet}")
-        repo.add(wallet)
-        session.commit()
-    except ValueError as e:
+        aww_service.add_wallet(
+            request.json["address"],
+            request.json["amount"],
+            request.json["state"],
+            repo,
+            session,
+        )
+    except aww_service.InvalidAddress as e:
         return {"message": str(e)}, 400
     return "OK", 201
 

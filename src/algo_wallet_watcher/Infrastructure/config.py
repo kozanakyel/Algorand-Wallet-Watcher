@@ -9,7 +9,7 @@ load_dotenv()
 LOG_PATH = './src/algo_wallet_watcher/Infrastructure/logger' + os.sep + "logs"
 LOG_FILE_NAME_PREFIX = f"log_{datetime.now()}"
 
-API_PORT='5000'
+API_PORT='5005'
 API_HOST='127.0.0.1'
 
 def get_api_url():
