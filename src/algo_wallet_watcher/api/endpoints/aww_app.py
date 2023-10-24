@@ -8,14 +8,14 @@ from algo_wallet_watcher.Infrastructure.orm_mapper import orm
 import algo_wallet_watcher.Infrastructure.config as config
 
 from algo_wallet_watcher.Infrastructure.adapters.wallet_repository import WalletRepository
-from algo_wallet_watcher.core.domain.wallet import Wallet
 from algo_wallet_watcher.api.services import aww_service
-
 
 orm.start_mappers()
 engine = create_engine(config.get_db_uri())
 get_session = sessionmaker(bind=engine)
 orm.metadata.create_all(engine)
+session = get_session()
+
 
 app = Flask(__name__)
 
@@ -27,7 +27,7 @@ db = SQLAlchemy(app)
 
 @aww_blueprint.route("/add_wallet", methods=["POST"])
 def add_wallet():
-    session = get_session()
+    global session
     repo = WalletRepository(session)
     try:
         aww_service.add_wallet(
@@ -41,9 +41,13 @@ def add_wallet():
         return {"message": str(e)}, 400
     return "OK", 201
 
+@aww_blueprint.route("/list_wallet", methods=["GET"])
+def list_wallet():
+    global session
+    repo = WalletRepository(session)
+    wallet_list = aww_service.list_wallet(repo=repo)
+    json_wallet_list = [wallet.json() for wallet in wallet_list]
 
-app.register_blueprint(aww_blueprint)
+    return jsonify(json_wallet_list), 200
 
-if __name__ == '__main__':
-    app.run(port=5005, host='0.0.0.0')
 
