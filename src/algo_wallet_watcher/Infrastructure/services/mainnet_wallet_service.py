@@ -1,6 +1,8 @@
 from algo_wallet_watcher.Infrastructure.config import MAINNET_ACCOUNT_API
 import requests
 
+from algo_wallet_watcher.core.domain.wallet import Wallet
+
 
 class MainnetWalletService:
     """
@@ -22,11 +24,16 @@ class MainnetWalletService:
         }
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
-            return response.json()  
+            res = {
+                "address" : response.json()["address"],
+                "amount" : response.json()["amount"],
+                "state" : response.json()["status"]
+            }
+            return res
         else:
             return {'error': f'{response.status_code} - {response.text}'}
     
-    
+ 
 if __name__ == "__main__":
     k = MainnetWalletService()
     print(k.get_account_info('jvadsfkfbasl'))

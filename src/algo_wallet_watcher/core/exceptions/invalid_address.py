@@ -1,2 +1,0 @@
-class InvalidAddress(Exception):
-    pass

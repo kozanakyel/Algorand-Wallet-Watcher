@@ -32,12 +32,10 @@ def add_wallet():
     try:
         aww_service.add_wallet(
             request.json["address"],
-            request.json["amount"],
-            request.json["state"],
             repo,
             session,
         )
-    except aww_service.InvalidAddress as e:
+    except Exception as e:
         return {"message": str(e)}, 400
     return "OK", 201
 
