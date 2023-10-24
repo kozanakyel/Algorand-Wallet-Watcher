@@ -1,0 +1,6 @@
+flask
+flask_cors
+tqdm
+python-dotenv
+flask-sqlalchemy
+pytest
