@@ -13,6 +13,10 @@ LOG_FILE_NAME_PREFIX = f"log_{datetime.now()}"
 API_PORT='5005'
 API_HOST='127.0.0.1'
 
+SWAGGER_URL = "/swagger"
+SWAGGER_API_URL = f"{API_HOST}:{API_PORT}/swagger.json"
+SWAGGER_JSON_URL = "src/algo_wallet_watcher/api/endpoints/static/swagger.json"
+
 def get_api_url():
     host = API_HOST
     port = API_PORT

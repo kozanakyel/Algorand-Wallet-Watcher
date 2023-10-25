@@ -1,0 +1,71 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Algorand Wallet Watcher",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/list_wallet": {
+      "get": {
+        "description": "Returns all the wallets in Watcher List with address and State information",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Wallet"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/add_wallet": {
+      "post": {
+        "description": "Add new Algorand wallet to watcher list",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "address",
+            "in": "body",
+            "description": "Algorand Address with 58 string length",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "address": {
+                  "type": "string",
+                  "maxLength": 58
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User granted access"
+          },
+          "400": {
+            "description": "Invalid request data"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Wallet": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -40,7 +40,7 @@ def add_wallet():
         )
     except Exception as e:
         return {"message": str(e)}, 400
-    return "OK", 201
+    return "OK", 200
 
 
 @aww_blueprint.route("/list_wallet", methods=["GET"])
@@ -57,3 +57,5 @@ def list_wallet():
     )
 
     return jsonify(result_list), 200
+
+
