@@ -15,6 +15,10 @@ class AbstractWalletRepository(AbstractBaseRepository):
     @abc.abstractmethod
     def list(self):
         raise NotImplementedError
+    
+    @abc.abstractmethod
+    def update(self, address, amount, state):
+        raise NotImplementedError
 
 
 class WalletRepository(AbstractWalletRepository):
@@ -29,3 +33,10 @@ class WalletRepository(AbstractWalletRepository):
 
     def list(self):
         return self.session.query(Wallet).all()
+    
+    def update(self, address, amount, state):
+        wallet = self.get(address)
+        if wallet:
+            wallet.amount = amount
+            wallet.state = state
+            self.session.commit()
