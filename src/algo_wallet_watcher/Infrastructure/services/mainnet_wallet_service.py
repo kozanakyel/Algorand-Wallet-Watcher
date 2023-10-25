@@ -36,4 +36,4 @@ class MainnetWalletService:
  
 if __name__ == "__main__":
     k = MainnetWalletService()
-    print(k.get_account_info('jvadsfkfbasl'))
+    print(k.get_account_info('SLGYSO6ZRYW5FOJCYPLXSBMKFAGOV3QUZ3AZZ3LRAJMSJDDH63RIJDYJUU'))
