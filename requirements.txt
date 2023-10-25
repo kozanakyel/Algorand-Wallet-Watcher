@@ -6,3 +6,4 @@ flask-sqlalchemy
 pytest
 requests
 flask_swagger_ui
+tenacity
