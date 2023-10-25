@@ -57,5 +57,3 @@ def list_wallet():
     )
 
     return jsonify(result_list), 200
-
-
