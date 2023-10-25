@@ -38,7 +38,7 @@ class PeriodicStateCheckService:
             for wallet in self.wallet_list:
                 address = wallet.address
                 current_state = self.get_account_info(address)
-                print(current_state)
+                # print(current_state)
 
                 if "error" not in current_state:
                     if current_state["amount"] != wallet.amount:
@@ -61,8 +61,3 @@ class PeriodicStateCheckService:
 
     def start_periodic_check(self):
         self.periodic_thread.start()
-
-
-# k = PeriodicStateCheckService()
-
-# print(k.wallet_list)
