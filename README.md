@@ -4,6 +4,13 @@ The main purposes of this project create a watcher list for especially Algorand 
 
 Additionally this backend structure uses documentation with swagger platform and rest-api for add wallet or list wallet operation. Thirdly AWW has a periodic check state mechanism for always this wallet and balaces saved correctly. Also we logged all this information via the logger object.
 
+How to build a Docker container and run via the terminal:
+
+```
+$ docker build -t aww .
+$ docker run -p 5005:5005 -v $(pwd)/logs:/app/src/algo_wallet_watcher/Infrastructure/logger/logs aww
+```
+
 How to install and running application, via this command: 
 
 ```
