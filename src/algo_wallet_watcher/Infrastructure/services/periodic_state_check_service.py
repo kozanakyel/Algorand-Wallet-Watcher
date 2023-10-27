@@ -12,6 +12,7 @@ from algo_wallet_watcher.Infrastructure.config import LOG_FILE_NAME_PREFIX, LOG_
 
 import threading
 import time
+import logging
 
 
 class PeriodicStateCheckService:
@@ -21,17 +22,18 @@ class PeriodicStateCheckService:
         self.wallet_repo = WalletRepository(session=session)
         self.wallet_list = list_wallet(self.wallet_repo)
         self.mainnet_service = MainnetWalletService()
-        self.logger = Logger(LOG_PATH, LOG_FILE_NAME_PREFIX)
+        # self.logger = Logger(LOG_PATH, LOG_FILE_NAME_PREFIX)
+        self.logger = logging
         self.periodic_thread = threading.Thread(target=self.periodic_state_check)
         self.periodic_thread.daemon = True
-        print("file path logger: ", self.logger.file_path)
+        # print("file path logger: ", self.logger.file_path)
 
     def get_account_info(self, address):
         return self.mainnet_service.get_account_info(address)
 
     def log(self, text):
         if self.logger:
-            self.logger.append_log(text)
+            self.logger.warning(text)
         else:
             print(text)
 
@@ -46,10 +48,6 @@ class PeriodicStateCheckService:
                     if current_state["amount"] != wallet.amount:
                         self.log(
                             f"amount changed for wallet {address}. "
-                            f"Old amount: {wallet.amount}, New balance: {current_state['amount']}"
-                        )
-                        print(
-                            f"{LOG_FILE_NAME_PREFIX} amount changed for wallet {address}. "
                             f"Old amount: {wallet.amount}, New balance: {current_state['amount']}"
                         )
                         wallet.amount = current_state["amount"]
