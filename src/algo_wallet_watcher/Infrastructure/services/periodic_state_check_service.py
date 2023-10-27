@@ -6,6 +6,7 @@ from algo_wallet_watcher.api.endpoints.aww_app import session
 from algo_wallet_watcher.Infrastructure.adapters.wallet_repository import (
     WalletRepository,
 )
+from algo_wallet_watcher.core.domain.wallet import Wallet
 from algo_wallet_watcher.Infrastructure.logger.logger import Logger
 from algo_wallet_watcher.Infrastructure.config import LOG_FILE_NAME_PREFIX, LOG_PATH
 
@@ -22,7 +23,8 @@ class PeriodicStateCheckService:
         self.mainnet_service = MainnetWalletService()
         self.logger = Logger(LOG_PATH, LOG_FILE_NAME_PREFIX)
         self.periodic_thread = threading.Thread(target=self.periodic_state_check)
-        self.periodic_thread.daemon = True 
+        self.periodic_thread.daemon = True
+        print("file path logger: ", self.logger.file_path)
 
     def get_account_info(self, address):
         return self.mainnet_service.get_account_info(address)
@@ -43,7 +45,11 @@ class PeriodicStateCheckService:
                 if "error" not in current_state:
                     if current_state["amount"] != wallet.amount:
                         self.log(
-                            f"Balance changed for wallet {address}. "
+                            f"amount changed for wallet {address}. "
+                            f"Old amount: {wallet.amount}, New balance: {current_state['amount']}"
+                        )
+                        print(
+                            f"{LOG_FILE_NAME_PREFIX} amount changed for wallet {address}. "
                             f"Old amount: {wallet.amount}, New balance: {current_state['amount']}"
                         )
                         wallet.amount = current_state["amount"]
@@ -57,7 +63,9 @@ class PeriodicStateCheckService:
                         state=current_state["state"],
                     )
 
-            time.sleep(60)
+            time.sleep(60)        
+        
 
     def start_periodic_check(self):
+        print("Priodic State Check Service start running...")
         self.periodic_thread.start()
